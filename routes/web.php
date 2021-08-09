@@ -18,4 +18,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/token', [TokenController::class, 'create']);
+Route::get('/token', [TokenController::class, 'issue']);
+Route::get('/validate', [TokenController::class, 'validateToken']);
