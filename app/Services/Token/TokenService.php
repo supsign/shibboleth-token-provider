@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Token;
 
 use DateTimeImmutable;
 use Lcobucci\Clock\FrozenClock;
@@ -19,12 +19,15 @@ use PhpParser\Node\Expr\Cast\Bool_;
 
 class TokenService {
     
-    public function issue(int $event_id = null):Plain {
+    public function issue(TokenConfig $tokenConfig):Plain {
+        if (!$tokenConfig->isValid()){
+            abort(400, 'TokenConfig not valid');
+        }
+
+        
         $private = config('jwt.private');
         $public = config('jwt.public');
-
         $privateKey = InMemory::plainText($private);
-
         $publicKey = InMemory::plainText($public);
 
         $config = Configuration::forAsymmetricSigner(
@@ -34,29 +37,18 @@ class TokenService {
             $publicKey
             // You may also override the JOSE encoder/decoder if needed by providing extra arguments here
         );
+
         $now = new DateTimeImmutable();
-        $config->setValidationConstraints(new StrictValidAt(new FrozenClock($now)));
 
         return $config->builder()
         // Configures the issuer (iss claim)
-            // ->issuedBy('http://example.com')
-        // Configures the audience (aud claim)
-            // ->permittedFor('http://example.org')
-        // Configures the id (jti claim)
-            // ->identifiedBy('4f1g23a12aa')
-        // Configures the time that the token was issue (iat claim)
+             ->issuedBy('https://mst.fhnw.ch')
             ->issuedAt($now)
-        // Configures the time that the token can be used (nbf claim)
-            // ->canOnlyBeUsedAfter($now->modify('0 minute'))
-        // Configures the expiration time of the token (exp claim)
             ->expiresAt($now->modify('+1 hour'))
-        // Configures a new claim, called "uid"
-            ->withClaim('evento_id', 154228)
-            ->withClaim('firstname', 'Baumgartner')
-            ->withClaim('lastname', 'Matthias')
-        // Configures a new header, called "foo"
-            // ->withHeader('foo', 'bar')
-        // Builds a new token
+            ->withClaim('evento_id', $tokenConfig->eventoId)
+            ->withClaim('firstname', $tokenConfig->firstname)
+            ->withClaim('lastname', $tokenConfig->lastname)
+            ->withClaim('role', $tokenConfig->role->getName())
             ->getToken($config->signer(), $config->signingKey());
         ;
     }
