@@ -12,8 +12,8 @@ class TokenConfig {
 
 
     public function __construct(ShibbolethProperties $shibbolethProperties) {
-        $this->firstname = $shibbolethProperties->givenName;
-        $this->lastname = $shibbolethProperties->surname;
+        $this->firstname = $shibbolethProperties->givenName ?: '';
+        $this->lastname = $shibbolethProperties->surname ?: '';
         $this->eventoId = (int)$shibbolethProperties->fhnwIDPerson;
         $this->setRole($shibbolethProperties);
     }
