@@ -15,4 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [TokenController::class, 'issue']);
+Route::get('/asstudent', [TokenController::class, 'issueAsStudent']);
 Route::get('/validate', [TokenController::class, 'validateToken']);

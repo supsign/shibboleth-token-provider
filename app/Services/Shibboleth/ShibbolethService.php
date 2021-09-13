@@ -23,6 +23,7 @@ class ShibbolethService {
         $data->givenName = Request::server('givenName');
         $data->mail = Request::server('mail');
         $data->surname = Request::server('surname');
+        $data->entitlement = Request::server('entitlement');
 
         $this->properties = $data;
         return $data;

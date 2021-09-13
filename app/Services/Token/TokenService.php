@@ -31,9 +31,10 @@ class TokenService
             ->expiresAt($now->modify('+1 hour'))
             ->withClaim('fhnwIDPerson', $shibbolethProperties->fhnwIDPerson)
             ->withClaim('mail', $shibbolethProperties->mail)
-            ->withClaim('firstname', $shibbolethProperties->givenName)
-            ->withClaim('lastname', $shibbolethProperties->surname)
+            ->withClaim('givenName', $shibbolethProperties->givenName)
+            ->withClaim('surname', $shibbolethProperties->surname)
             ->withClaim('fhnwDetailedAffiliation', $shibbolethProperties->fhnwDetailedAffiliation)
+            ->withClaim('entitlement', $shibbolethProperties->entitlement)
             ->getToken(Signer\Ecdsa\Sha512::create(), $privateKey)
         ;
     }
