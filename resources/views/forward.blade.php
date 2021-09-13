@@ -21,7 +21,10 @@
         </style>
     </head>
     <body class="antialiased">
-        <form id="forwardForm" action="http://mst.loc/auth/login" method="post">
+    @php
+        $mstUrl = Config::get('jwt.mstUrl');
+    @endphp
+        <form id="forwardForm" action="{{$mstUrl.'/auth/login'}}" method="post">
             <input type="hidden" value="{{$token}}" name="jwt">
             <button type="submit">Weiterleiten</button>
         </form>
