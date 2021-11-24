@@ -35,6 +35,24 @@ class TokenController extends Controller
         return view('forward', ['token' => $token]);
     }
 
+    public function issueAsMentor(Request $request, TokenService $tokenService, ShibbolethService $shibbolethService)
+    {
+        if (!App::environment('local')){
+            abort(403);
+        }
+
+        $shibbolethProperties = $shibbolethService->getProperties();
+        $shibbolethProperties->fhnwIDPerson = $request->fhnwIDPerson ?? 1;
+        $shibbolethProperties->givenName = 'Till';
+        $shibbolethProperties->surname = 'Müller';
+        $shibbolethProperties->mail = 'tillMüller@supsign.ch';
+        $shibbolethProperties->fhnwDetailedAffiliation = 'staff-hls-alle';
+
+        $token = $tokenService->issue($shibbolethProperties)->toString();
+
+        return view('forward', ['token' => $token]);
+    }
+
     public function validateToken(TokenService $tokenService, Request $request)
     {
         return $tokenService->isValid($request->token);
