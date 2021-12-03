@@ -61,7 +61,7 @@ class TokenController extends Controller
         }
 
         $shibbolethProperties = $shibbolethService->getProperties();
-        $shibbolethProperties->fhnwIDPerson = $request->fhnwIDPerson ?? 1;
+        $shibbolethProperties->fhnwIDPerson = $request->fhnwIDPerson ?? 2;
         $shibbolethProperties->givenName = 'Till';
         $shibbolethProperties->surname = 'Müller';
         $shibbolethProperties->mail = 'tillMüller@supsign.ch';
