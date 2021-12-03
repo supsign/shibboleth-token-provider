@@ -18,6 +18,25 @@ class TokenController extends Controller
         return view('forward', ['token' => $token]);
     }
 
+    public function issueAsAdmin(TokenService $tokenService, ShibbolethService $shibbolethService)
+    {
+        if (!App::environment('local')){
+            abort(403);
+        }
+
+        $shibbolethProperties = $shibbolethService->getProperties();
+        $shibbolethProperties->fhnwIDPerson = 1;
+        $shibbolethProperties->givenName = 'Admin';
+        $shibbolethProperties->surname = 'Admin';
+        $shibbolethProperties->mail = 'hls@supsign.ch';
+        $shibbolethProperties->fhnwDetailedAffiliation = 'staff-hls-alle';
+
+        $token = $tokenService->issue($shibbolethProperties)->toString();
+
+        return view('forward', ['token' => $token]);
+    }
+
+
     public function issueAsStudent(Request $request, TokenService $tokenService, ShibbolethService $shibbolethService)
     {
         if (!App::environment('local')){
@@ -42,7 +61,7 @@ class TokenController extends Controller
         }
 
         $shibbolethProperties = $shibbolethService->getProperties();
-        $shibbolethProperties->fhnwIDPerson = $request->fhnwIDPerson ?? 1;
+        $shibbolethProperties->fhnwIDPerson = $request->fhnwIDPerson ?? 2;
         $shibbolethProperties->givenName = 'Till';
         $shibbolethProperties->surname = 'Müller';
         $shibbolethProperties->mail = 'tillMüller@supsign.ch';
