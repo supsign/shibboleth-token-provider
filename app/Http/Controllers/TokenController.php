@@ -29,7 +29,7 @@ class TokenController extends Controller
         $shibbolethProperties->givenName = 'Admin';
         $shibbolethProperties->surname = 'Admin';
         $shibbolethProperties->mail = 'hls@supsign.ch';
-        $shibbolethProperties->fhnwDetailedAffiliation = 'staff-hls-alle';
+        $shibbolethProperties->entitlement = 'http://fhnw.ch/aai/res/hls/stab/mst_admin';
 
         $token = $tokenService->issue($shibbolethProperties)->toString();
 
@@ -48,6 +48,7 @@ class TokenController extends Controller
         $shibbolethProperties->givenName = 'Max';
         $shibbolethProperties->surname = 'Müller';
         $shibbolethProperties->mail = 'admin@supsign.ch';
+        $shibbolethProperties->entitlement = 'http://fhnw.ch/aai/res/hls/stab/mst_edu_student';
 
         $token = $tokenService->issue($shibbolethProperties)->toString();
 
@@ -65,7 +66,7 @@ class TokenController extends Controller
         $shibbolethProperties->givenName = 'Till';
         $shibbolethProperties->surname = 'Müller';
         $shibbolethProperties->mail = 'tillMüller@supsign.ch';
-        $shibbolethProperties->fhnwDetailedAffiliation = 'staff-hls-alle';
+        $shibbolethProperties->entitlement = 'http://fhnw.ch/aai/res/hls/stab/mst_mentor';
 
         $token = $tokenService->issue($shibbolethProperties)->toString();
 
