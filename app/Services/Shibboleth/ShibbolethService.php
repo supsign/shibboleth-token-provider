@@ -4,15 +4,16 @@ namespace App\Services\Shibboleth;
 
 use Illuminate\Support\Facades\Request;
 
-class ShibbolethService {
-
+class ShibbolethService
+{
     private ShibbolethProperties $properties;
 
     public function __construct() {
         $this->laodProperties();
     }
 
-    private function laodProperties():ShibbolethProperties{
+    private function laodProperties(): ShibbolethProperties
+    {
         $data = new ShibbolethProperties();
 
         $data->shibSessionId = Request::server('Shib-Session-ID');
@@ -23,13 +24,13 @@ class ShibbolethService {
         $data->givenName = Request::server('givenName');
         $data->mail = Request::server('mail');
         $data->surname = Request::server('surname');
-        $data->entitlement = Request::server('entitlement');
 
         $this->properties = $data;
         return $data;
     }
 
-    public function getProperties() {
+    public function getProperties() 
+    {
         return $this->properties;
     }
 }
