@@ -12,7 +12,6 @@ class TokenController extends Controller
     public function issue(TokenService $tokenService, ShibbolethService $shibbolethService)
     {
         $shibbolethProperties = $shibbolethService->getProperties();
-
         $token = $tokenService->issue($shibbolethProperties)->toString();
 
         return view('forward', ['token' => $token]);

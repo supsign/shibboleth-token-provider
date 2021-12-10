@@ -2,6 +2,7 @@
 
 namespace App\Services\Token;
 
+use App\Services\Log\LogService;
 use App\Services\Shibboleth\ShibbolethProperties;
 use DateTimeImmutable;
 use Lcobucci\Clock\FrozenClock;
@@ -18,6 +19,10 @@ use Lcobucci\JWT\Validation\Validator;
 
 class TokenService
 {
+    public function __construct(protected LogService $log)
+    {
+    }
+
     public function issue(ShibbolethProperties $shibbolethProperties): Plain
     {
         $private = config('jwt.private');
@@ -25,7 +30,7 @@ class TokenService
         $builder = new Builder(new JoseEncoder(), ChainedFormatter::default());
         $now = new DateTimeImmutable();
 
-        return $builder->issuedBy('https://mst.fhnw.ch')
+        $token =  $builder->issuedBy('https://mst.fhnw.ch')
             ->issuedAt($now)
             ->canOnlyBeUsedAfter($now)
             ->expiresAt($now->modify('+1 hour'))
@@ -35,8 +40,11 @@ class TokenService
             ->withClaim('surname', $shibbolethProperties->surname)
             ->withClaim('fhnwDetailedAffiliation', $shibbolethProperties->fhnwDetailedAffiliation)
             ->withClaim('entitlement', $shibbolethProperties->entitlement)
-            ->getToken(Signer\Ecdsa\Sha512::create(), $privateKey)
-        ;
+            ->getToken(Signer\Ecdsa\Sha512::create(), $privateKey);
+
+        $this->log->withProperties([$shibbolethProperties, $token->toString()])->log('login attempt');
+
+        return $token;
     }
 
     public function isValid(string $jwt = null): bool

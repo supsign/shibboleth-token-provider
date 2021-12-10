@@ -6,13 +6,13 @@ use Illuminate\Support\Facades\Request;
 
 class ShibbolethService
 {
-    private ShibbolethProperties $properties;
+    protected ShibbolethProperties $properties;
 
     public function __construct() {
         $this->laodProperties();
     }
 
-    private function laodProperties(): ShibbolethProperties
+    protected function laodProperties(): ShibbolethProperties
     {
         $data = new ShibbolethProperties();
 
@@ -29,7 +29,7 @@ class ShibbolethService
         return $data;
     }
 
-    public function getProperties() 
+    public function getProperties()
     {
         return $this->properties;
     }
