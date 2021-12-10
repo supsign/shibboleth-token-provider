@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Token;
 
+use App;
 use App\Services\Shibboleth\ShibbolethProperties;
 use App\Services\Token\TokenService;
 use Lcobucci\JWT\Token\Plain;
@@ -19,7 +20,7 @@ class IssueTokenTest extends TestCase
         $shibbolethProperties->surname = 'blub';
         $shibbolethProperties->givenName = 'blub2';
         $shibbolethProperties->fhnwIDPerson = 1234;
-        $tokenService = new TokenService();
+        $tokenService = App::make(TokenService::class);
 
         $token = $tokenService->issue($shibbolethProperties);
 
