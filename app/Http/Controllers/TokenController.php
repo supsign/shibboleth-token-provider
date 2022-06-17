@@ -19,7 +19,7 @@ class TokenController extends Controller
 
     public function issueAsAdmin(TokenService $tokenService, ShibbolethService $shibbolethService)
     {
-        if (!App::environment('local')){
+        if (!App::environment('local')) {
             abort(403);
         }
 
@@ -35,10 +35,9 @@ class TokenController extends Controller
         return view('forward', ['token' => $token]);
     }
 
-
     public function issueAsStudent(Request $request, TokenService $tokenService, ShibbolethService $shibbolethService)
     {
-        if (!App::environment('local')){
+        if (!App::environment('local')) {
             abort(403);
         }
 
@@ -56,7 +55,7 @@ class TokenController extends Controller
 
     public function issueAsMentor(Request $request, TokenService $tokenService, ShibbolethService $shibbolethService)
     {
-        if (!App::environment('local')){
+        if (!App::environment('local')) {
             abort(403);
         }
 

@@ -43,7 +43,7 @@ class LogService
             (new DateTime)->format('Y-m-d H:i:s'),
             $this->level,
             $this->message,
-            $this->properties
+            $this->properties,
         ]);
 
         Storage::append($this->filePath, $body, "\r\n");

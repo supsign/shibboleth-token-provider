@@ -8,7 +8,8 @@ class ShibbolethService
 {
     protected ShibbolethProperties $properties;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->laodProperties();
     }
 
@@ -26,6 +27,7 @@ class ShibbolethService
         $data->surname = Request::server('surname');
 
         $this->properties = $data;
+
         return $data;
     }
 
