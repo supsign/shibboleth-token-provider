@@ -2,7 +2,7 @@
 
 namespace App\Services\Shibboleth;
 
-class ShibbolethProperties 
+class ShibbolethProperties
 {
     public $shibSesssionId;
     public $shibIdentityProvider;

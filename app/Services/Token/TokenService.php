@@ -30,7 +30,7 @@ class TokenService
         $builder = new Builder(new JoseEncoder(), ChainedFormatter::default());
         $now = new DateTimeImmutable();
 
-        $token =  $builder->issuedBy('https://mst.fhnw.ch')
+        $token = $builder->issuedBy('https://mst.fhnw.ch')
             ->issuedAt($now)
             ->canOnlyBeUsedAfter($now)
             ->expiresAt($now->modify('+1 hour'))
